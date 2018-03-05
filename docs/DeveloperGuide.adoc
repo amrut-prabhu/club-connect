@@ -797,14 +797,28 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 [width="59%",cols="22%,<23%,<25%,<30%",options="header",]
 |=======================================================================
-|Priority |As a ... |I want to ... |So that I can...
+|Priority |As a/an ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |add a new person |
+|`* * *` |Exco member |add a new person to the club | begin assigning groups and tasks to the person
 
-|`* * *` |user |delete a person |remove entries that I no longer need
+|`* * *` |Exco member |delete a person from the club |remove entries that the club no longer needs
+
+|`* * *` |Exco member |divide members into groups using tags |manage the committee members more efficiently
+
+|`* * *` |Exco member |remove a particular tag/group | remove redundancies
+
+|`* * *` |Exco member |remove a person from a particular group | keep the App up-to-date, and also take into account students that opt-out or graduate
+
+|`* * *` |user |edit my contact details |keep my contact information updated
+
+|`* * *` |user |undo and redo my commands |reverse any undesirable commands or mistakes
+
+|`* * *` |user |select a user |view the user's details
 
 |`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
+
+|`* * *` |user |find a person by specified field |locate details of persons without having to go through the entire list
 
 |`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
 
@@ -844,6 +858,39 @@ Use case ends.
 +
 Use case resumes at step 2.
 
+[discrete]
+=== Use case: Add person
+
+*MSS*
+
+1.  User requests to list persons
+2.  AddressBook shows a list of persons
+3.  User requests to add a person to the list
+4.  AddressBook adds the person
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The syntax of the add command is invalid.
++
+[none]
+** 2a1. AddressBook shows an error message
++
+Use case resumes at step 2.
+
+[discrete]
+=== Use case: Help
+
+*MSS*
+
+1.  User requests help
+2.  AddressBook shows usage instructions
++
+Use case ends.
+
+
 _{More to be added}_
 
 [appendix]
@@ -852,6 +899,10 @@ _{More to be added}_
 .  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `1.8.0_60` or higher installed.
 .  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+.  Should respond within 1 second.
+.  Should work on 32- and 64- bit environments.
+.  Should be easy to use for a first-time user.
+.  Should be able to handle any sort of input, i.e. should recover from invalid input.
 
 _{More to be added}_
 
