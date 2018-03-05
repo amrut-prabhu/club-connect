@@ -54,6 +54,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 * Items in square brackets are optional e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
 * Items with `…`​ after them can be used multiple times including zero times e.g. `[t/TAG]...` can be used as `{nbsp}` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
 * Parameters can be in any order e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+* Some commands can be executed by using an alias. eg. `a n/John Doe` instead of `add n/John Doe`, `f John` instead of `find John`
 ====
 
 === Viewing help : `help`
@@ -63,6 +64,7 @@ Format: `help`
 === Adding a person: `add`
 
 Adds a person to the address book +
+Alias: `a` +
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
 
 [TIP]
@@ -76,11 +78,13 @@ Examples:
 === Listing all persons : `list`
 
 Shows a list of all persons in the address book. +
+Alias: `l` + 
 Format: `list`
 
 === Editing a person : `edit`
 
 Edits an existing person in the address book. +
+Alias: `e` + 
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
 
 ****
@@ -101,6 +105,7 @@ Edits the name of the 2nd person to be `Betsy Crower` and clears all existing ta
 === Locating persons by name: `find`
 
 Finds persons whose names contain any of the given keywords. +
+Alias: `f` + 
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
 ****
@@ -121,6 +126,7 @@ Returns any person having names `Betsy`, `Tim`, or `John`
 === Deleting a person : `delete`
 
 Deletes the specified person from the address book. +
+Alias: `d` + 
 Format: `delete INDEX`
 
 ****
@@ -141,6 +147,7 @@ Deletes the 1st person in the results of the `find` command.
 === Selecting a person : `select`
 
 Selects the person identified by the index number used in the last person listing. +
+Alias: `s` + 
 Format: `select INDEX`
 
 ****
@@ -161,6 +168,7 @@ Selects the 1st person in the results of the `find` command.
 === Listing entered commands : `history`
 
 Lists all the commands that you have entered in reverse chronological order. +
+Alias: `h` + 
 Format: `history`
 
 [NOTE]
@@ -172,6 +180,7 @@ Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and 
 === Undoing previous command : `undo`
 
 Restores the address book to the state before the previous _undoable_ command was executed. +
+Alias: `u` + 
 Format: `undo`
 
 [NOTE]
@@ -198,6 +207,7 @@ The `undo` command fails as there are no undoable commands executed previously.
 === Redoing the previously undone command : `redo`
 
 Reverses the most recent `undo` command. +
+Alias: `r` + 
 Format: `redo`
 
 Examples:
@@ -221,6 +231,7 @@ The `redo` command fails as there are no `undo` commands executed previously.
 === Clearing all entries : `clear`
 
 Clears all entries from the address book. +
+Alias: `c` + 
 Format: `clear`
 
 === Exiting the program : `exit`
