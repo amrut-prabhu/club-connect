@@ -11,7 +11,7 @@ import seedu.club.logic.commands.exceptions.CommandException;
 import seedu.club.logic.parser.AddressBookParser;
 import seedu.club.logic.parser.exceptions.ParseException;
 import seedu.club.model.Model;
-import seedu.club.model.person.Person;
+import seedu.club.model.member.Member;
 
 /**
  * The main LogicManager of the app.
@@ -46,8 +46,8 @@ public class LogicManager extends ComponentManager implements Logic {
     }
 
     @Override
-    public ObservableList<Person> getFilteredPersonList() {
-        return model.getFilteredPersonList();
+    public ObservableList<Member> getFilteredMemberList() {
+        return model.getFilteredMemberList();
     }
 
     @Override

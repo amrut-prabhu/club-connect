@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<member>
+    <name>Hans Muster</name>
+    <phone>9482424</phone>
+    <email>hans@example</email>
+    <matricNumber>A1234567H</matricNumber>
+    <group isPrivate="false">logistics</group>
+>>>>>>> master
+    <tagged>friends</tagged>
+</member>

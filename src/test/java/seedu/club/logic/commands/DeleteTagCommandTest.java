@@ -8,14 +8,14 @@ import static seedu.club.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.club.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.club.logic.commands.CommandTestUtil.prepareRedoCommand;
 import static seedu.club.logic.commands.CommandTestUtil.prepareUndoCommand;
-import static seedu.club.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.club.logic.commands.CommandTestUtil.showMemberAtIndex;
 import static seedu.club.logic.commands.DeleteTagCommand.MESSAGE_DELETE_TAG_SUCCESS;
 import static seedu.club.logic.commands.DeleteTagCommand.MESSAGE_NON_EXISTENT_TAG;
-import static seedu.club.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.club.testutil.TypicalIndexes.INDEX_FIRST_MEMBER;
 import static seedu.club.testutil.TypicalIndexes.INDEX_FIRST_TAG;
-import static seedu.club.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.club.testutil.TypicalIndexes.INDEX_SECOND_MEMBER;
 import static seedu.club.testutil.TypicalIndexes.INDEX_SECOND_TAG;
-import static seedu.club.testutil.TypicalPersons.getTypicalClubBook;
+import static seedu.club.testutil.TypicalMembers.getTypicalClubBook;
 
 import org.junit.Test;
 
@@ -58,7 +58,7 @@ public class DeleteTagCommandTest {
 
     @Test
     public void execute_validTagFilteredList_success() throws Exception {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+        showMemberAtIndex(model, INDEX_FIRST_MEMBER);
 
         Tag tagToRemove = model.getFilteredTagList().get(INDEX_FIRST_TAG.getZeroBased());
 
@@ -75,7 +75,7 @@ public class DeleteTagCommandTest {
 
     @Test
     public void execute_invalidTagFilteredList_throwsCommandException() {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+        showMemberAtIndex(model, INDEX_FIRST_MEMBER);
 
         Tag nonExistentTag = new Tag(VALID_TAG_UNUSED);
 
@@ -126,12 +126,12 @@ public class DeleteTagCommandTest {
     /**
      * 1. Removes a {@code Tag} from a filtered list.
      * 2. Undo the removal.
-     * 3. The unfiltered list should be shown now. Verify that the index of the previously deleted person in the
+     * 3. The unfiltered list should be shown now. Verify that the index of the previously deleted member in the
      * unfiltered list is different from the index at the filtered list.
      * 4. Redo the deletion. This ensures {@code RedoCommand} removes the tag object regardless of indexing.
      */
     @Test
-    public void executeUndoRedo_validTagFilteredList_samePersonDeleted() throws Exception {
+    public void executeUndoRedo_validTagFilteredList_sameMemberDeleted() throws Exception {
         UndoRedoStack undoRedoStack = new UndoRedoStack();
         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
@@ -139,7 +139,7 @@ public class DeleteTagCommandTest {
         DeleteTagCommand deleteTagCommand = prepareCommand(tagToRemove);
         Model expectedModel = new ModelManager(model.getClubBook(), new UserPrefs());
 
-        showPersonAtIndex(model, INDEX_SECOND_PERSON);
+        showMemberAtIndex(model, INDEX_SECOND_MEMBER);
         // remove tag -> removes first tag in unfiltered tag list / filtered tag list
         deleteTagCommand.execute();
         undoRedoStack.push(deleteTagCommand);
@@ -173,7 +173,7 @@ public class DeleteTagCommandTest {
         // null -> returns false
         assertFalse(removeFirstTagCommand.equals(null));
 
-        // different person -> returns fal
+        // different member -> returns fal
 
         // se
         assertFalse(removeFirstTagCommand.equals(removeSecondTagCommand));

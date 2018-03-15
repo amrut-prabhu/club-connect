@@ -8,26 +8,26 @@ import java.util.Objects;
 import seedu.club.commons.core.Messages;
 import seedu.club.commons.core.index.Index;
 import seedu.club.logic.commands.exceptions.CommandException;
-import seedu.club.model.person.Person;
-import seedu.club.model.person.exceptions.PersonNotFoundException;
+import seedu.club.model.member.Member;
+import seedu.club.model.member.exceptions.MemberNotFoundException;
 
 /**
- * Deletes a person identified using it's last displayed index from the club book.
+ * Deletes a member identified using it's last displayed index from the club book.
  */
 public class DeleteCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "delete";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the person identified by the index number used in the last person listing.\n"
+            + ": Deletes the member identified by the index number used in the last member listing.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
+    public static final String MESSAGE_DELETE_MEMBER_SUCCESS = "Deleted Member: %1$s";
 
     private final Index targetIndex;
 
-    private Person personToDelete;
+    private Member memberToDelete;
 
     public DeleteCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
@@ -36,25 +36,25 @@ public class DeleteCommand extends UndoableCommand {
 
     @Override
     public CommandResult executeUndoableCommand() {
-        requireNonNull(personToDelete);
+        requireNonNull(memberToDelete);
         try {
-            model.deletePerson(personToDelete);
-        } catch (PersonNotFoundException pnfe) {
-            throw new AssertionError("The target person cannot be missing");
+            model.deleteMember(memberToDelete);
+        } catch (MemberNotFoundException pnfe) {
+            throw new AssertionError("The target member cannot be missing");
         }
 
-        return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, personToDelete));
+        return new CommandResult(String.format(MESSAGE_DELETE_MEMBER_SUCCESS, memberToDelete));
     }
 
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
-        List<Person> lastShownList = model.getFilteredPersonList();
+        List<Member> lastShownList = model.getFilteredMemberList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            throw new CommandException(Messages.MESSAGE_INVALID_MEMBER_DISPLAYED_INDEX);
         }
 
-        personToDelete = lastShownList.get(targetIndex.getZeroBased());
+        memberToDelete = lastShownList.get(targetIndex.getZeroBased());
     }
 
     @Override
@@ -62,6 +62,6 @@ public class DeleteCommand extends UndoableCommand {
         return other == this // short circuit if same object
                 || (other instanceof DeleteCommand // instanceof handles nulls
                 && this.targetIndex.equals(((DeleteCommand) other).targetIndex) // state check
-                && Objects.equals(this.personToDelete, ((DeleteCommand) other).personToDelete));
+                && Objects.equals(this.memberToDelete, ((DeleteCommand) other).memberToDelete));
     }
 }

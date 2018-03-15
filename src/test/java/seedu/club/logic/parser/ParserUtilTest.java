@@ -5,7 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import static seedu.club.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
-import static seedu.club.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.club.testutil.TypicalIndexes.INDEX_FIRST_MEMBER;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,10 +18,10 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.club.commons.exceptions.IllegalValueException;
-import seedu.club.model.person.Email;
-import seedu.club.model.person.MatricNumber;
-import seedu.club.model.person.Name;
-import seedu.club.model.person.Phone;
+import seedu.club.model.member.Email;
+import seedu.club.model.member.MatricNumber;
+import seedu.club.model.member.Name;
+import seedu.club.model.member.Phone;
 import seedu.club.model.tag.Tag;
 import seedu.club.testutil.Assert;
 
@@ -60,10 +60,10 @@ public class ParserUtilTest {
     @Test
     public void parseIndex_validInput_success() throws Exception {
         // No whitespaces
-        assertEquals(INDEX_FIRST_PERSON, ParserUtil.parseIndex("1"));
+        assertEquals(INDEX_FIRST_MEMBER, ParserUtil.parseIndex("1"));
 
         // Leading and trailing whitespaces
-        assertEquals(INDEX_FIRST_PERSON, ParserUtil.parseIndex("  1  "));
+        assertEquals(INDEX_FIRST_MEMBER, ParserUtil.parseIndex("  1  "));
     }
 
     @Test

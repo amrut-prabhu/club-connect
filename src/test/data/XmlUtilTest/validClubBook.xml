@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addressbook>
+    <members>
+        <name>Hans Muster</name>
+        <phone isPrivate="false">9482424</phone>
+        <email isPrivate="false">hans@example.com</email>
+        <matricNumber isPrivate="false">A9210701B</matricNumber>
+        <group isPrivate="false">publicity</group>
+    </members>
+    <members>
+        <name>Ruth Mueller</name>
+        <phone isPrivate="false">87249245</phone>
+        <email isPrivate="false">ruth@example.com</email>
+        <matricNumber isPrivate="false">A8389539B</matricNumber>
+        <group isPrivate="false">logistic</group>
+    </members>
+    <members>
+        <name>Heinz Kurz</name>
+        <phone isPrivate="false">95352563</phone>
+        <email isPrivate="false">heinz@example.com</email>
+        <matricNumber isPrivate="false">A6076201A</matricNumber>
+        <group isPrivate="false">legal</group>
+    </members>
+    <members>
+        <name>Cornelia Meier</name>
+        <phone isPrivate="false">87652533</phone>
+        <email isPrivate="false">cornelia@example.com</email>
+        <matricNumber isPrivate="false">A2719059H</matricNumber>
+        <group isPrivate="false">logistics</group>
+    </members>
+    <members>
+        <name>Werner Meyer</name>
+        <phone isPrivate="false">9482224</phone>
+        <email isPrivate="false">werner@example.com</email>
+        <matricNumber isPrivate="false">A1932279G</matricNumber>
+        <group isPrivate="false">pr</group>
+    </members>
+    <members>
+        <name>Lydia Kunz</name>
+        <phone isPrivate="false">9482427</phone>
+        <email isPrivate="false">lydia@example.com</email>
+        <matricNumber isPrivate="false">A9662042H</matricNumber>
+        <group isPrivate="false">operations</group>
+    </members>
+    <members>
+        <name>Anna Best</name>
+        <phone isPrivate="false">9482442</phone>
+        <email isPrivate="false">anna@example.com</email>
+        <matricNumber isPrivate="false">A2836750A</matricNumber>
+        <group isPrivate="false">legal</group>
+    </members>
+    <members>
+        <name>Stefan Meier</name>
+        <phone isPrivate="false">8482424</phone>
+        <email isPrivate="false">stefan@example.com</email>
+        <matricNumber isPrivate="false">A8925920A</matricNumber>
+        <group isPrivate="false">marketing</group>
+    </members>
+    <members>
+        <name>Martin Mueller</name>
+        <phone isPrivate="false">8482131</phone>
+        <email isPrivate="false">hans@example.com</email>
+        <matricNumber isPrivate="false">A8801996A</matricNumber>
+        <group isPrivate="false">marketing</group>
+    </members>
+</addressbook>

@@ -1,7 +1,7 @@
 package seedu.club.model;
 
 import javafx.collections.ObservableList;
-import seedu.club.model.person.Person;
+import seedu.club.model.member.Member;
 import seedu.club.model.tag.Tag;
 
 /**
@@ -13,7 +13,7 @@ public interface ReadOnlyClubBook {
      * Returns an unmodifiable view of the persons list.
      * This list will not contain any duplicate persons.
      */
-    ObservableList<Person> getPersonList();
+    ObservableList<Member> getMemberList();
 
     /**
      * Returns an unmodifiable view of the tags list.

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!-- Person with missing name field -->
-<person>
-    <phone>9482424</phone>
-    <email>hans@example</email>
-    <matricNumber>A1234567H</matricNumber>
-    <group isPrivate="false">logistics</group>
-    <tagged>friends</tagged>
-</person>

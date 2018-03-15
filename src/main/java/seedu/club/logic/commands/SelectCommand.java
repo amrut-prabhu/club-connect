@@ -7,21 +7,21 @@ import seedu.club.commons.core.Messages;
 import seedu.club.commons.core.index.Index;
 import seedu.club.commons.events.ui.JumpToListRequestEvent;
 import seedu.club.logic.commands.exceptions.CommandException;
-import seedu.club.model.person.Person;
+import seedu.club.model.member.Member;
 
 /**
- * Selects a person identified using it's last displayed index from the club book.
+ * Selects a member identified using it's last displayed index from the club book.
  */
 public class SelectCommand extends Command {
 
     public static final String COMMAND_WORD = "select";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Selects the person identified by the index number used in the last person listing.\n"
+            + ": Selects the member identified by the index number used in the last member listing.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_SELECT_PERSON_SUCCESS = "Selected Person: %1$s";
+    public static final String MESSAGE_SELECT_MEMBER_SUCCESS = "Selected Member: %1$s";
 
     private final Index targetIndex;
 
@@ -32,14 +32,14 @@ public class SelectCommand extends Command {
     @Override
     public CommandResult execute() throws CommandException {
 
-        List<Person> lastShownList = model.getFilteredPersonList();
+        List<Member> lastShownList = model.getFilteredMemberList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            throw new CommandException(Messages.MESSAGE_INVALID_MEMBER_DISPLAYED_INDEX);
         }
 
         EventsCenter.getInstance().post(new JumpToListRequestEvent(targetIndex));
-        return new CommandResult(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased()));
+        return new CommandResult(String.format(MESSAGE_SELECT_MEMBER_SUCCESS, targetIndex.getOneBased()));
 
     }
 

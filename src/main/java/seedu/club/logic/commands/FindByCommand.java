@@ -1,6 +1,6 @@
 package seedu.club.logic.commands;
 
-import seedu.club.model.person.FieldContainsKeywordsPredicate;
+import seedu.club.model.member.FieldContainsKeywordsPredicate;
 
 /**
  * Finds and lists all persons in club book whose field contains any of the argument keywords.
@@ -24,8 +24,8 @@ public class FindByCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        model.updateFilteredPersonList(predicate);
-        return new CommandResult(getMessageForPersonListShownSummary(model.getFilteredPersonList().size()));
+        model.updateFilteredMemberList(predicate);
+        return new CommandResult(getMessageForPersonListShownSummary(model.getFilteredMemberList().size()));
     }
 
     @Override

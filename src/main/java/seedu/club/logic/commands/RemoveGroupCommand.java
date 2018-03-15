@@ -26,7 +26,7 @@ public class RemoveGroupCommand extends UndoableCommand {
     private final Group toRemove;
 
     /**
-     * Creates an AddCommand to add the specified {@code Person}
+     * Creates an AddCommand to add the specified {@code Member}
      */
     public RemoveGroupCommand(Group group) {
         requireNonNull(group);

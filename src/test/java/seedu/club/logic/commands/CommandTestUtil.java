@@ -22,10 +22,10 @@ import seedu.club.logic.UndoRedoStack;
 import seedu.club.logic.commands.exceptions.CommandException;
 import seedu.club.model.ClubBook;
 import seedu.club.model.Model;
-import seedu.club.model.person.NameContainsKeywordsPredicate;
-import seedu.club.model.person.Person;
-import seedu.club.model.person.exceptions.PersonNotFoundException;
-import seedu.club.testutil.EditPersonDescriptorBuilder;
+import seedu.club.model.member.Member;
+import seedu.club.model.member.NameContainsKeywordsPredicate;
+import seedu.club.model.member.exceptions.MemberNotFoundException;
+import seedu.club.testutil.EditMemberDescriptorBuilder;
 
 /**
  * Contains helper methods for testing commands.
@@ -44,7 +44,7 @@ public class CommandTestUtil {
     public static final String VALID_MATRIC_NUMBER_BOB = "A8389539B";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friends";
-    public static final String VALID_TAG_UNUSED = "unused"; //this tag should not be used when creating a person
+    public static final String VALID_TAG_UNUSED = "unused"; //this tag should not be used when creating a member
     public static final String VALID_TAG_UNUSED_DESC = " " + PREFIX_TAG + VALID_TAG_UNUSED;
     public static final String VALID_USERNAME_AMY = "AmyBee";
     public static final String VALID_USERNAME_BOB = "BobChoo";
@@ -83,14 +83,14 @@ public class CommandTestUtil {
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
-    public static final EditCommand.EditPersonDescriptor DESC_AMY;
-    public static final EditCommand.EditPersonDescriptor DESC_BOB;
+    public static final EditCommand.EditMemberDescriptor DESC_AMY;
+    public static final EditCommand.EditMemberDescriptor DESC_BOB;
 
     static {
-        DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
+        DESC_AMY = new EditMemberDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withMatricNumber(VALID_MATRIC_NUMBER_AMY)
                 .withGroup(VALID_GROUP_AMY).withTags(VALID_TAG_FRIEND).build();
-        DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
+        DESC_BOB = new EditMemberDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withMatricNumber(VALID_MATRIC_NUMBER_BOB)
                 .withGroup(VALID_GROUP_BOB).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
     }
@@ -115,13 +115,13 @@ public class CommandTestUtil {
      * Executes the given {@code command}, confirms that <br>
      * - a {@code CommandException} is thrown <br>
      * - the CommandException message matches {@code expectedMessage} <br>
-     * - the club book and the filtered person list in the {@code actualModel} remain unchanged
+     * - the club book and the filtered member list in the {@code actualModel} remain unchanged
      */
     public static void assertCommandFailure(Command command, Model actualModel, String expectedMessage) {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
         ClubBook expectedClubBook = new ClubBook(actualModel.getClubBook());
-        List<Person> expectedFilteredList = new ArrayList<>(actualModel.getFilteredPersonList());
+        List<Member> expectedFilteredList = new ArrayList<>(actualModel.getFilteredMemberList());
 
         try {
             command.execute();
@@ -129,33 +129,33 @@ public class CommandTestUtil {
         } catch (CommandException e) {
             assertEquals(expectedMessage, e.getMessage());
             assertEquals(expectedClubBook, actualModel.getClubBook());
-            assertEquals(expectedFilteredList, actualModel.getFilteredPersonList());
+            assertEquals(expectedFilteredList, actualModel.getFilteredMemberList());
         }
     }
 
     /**
-     * Updates {@code model}'s filtered list to show only the person at the given {@code targetIndex} in the
+     * Updates {@code model}'s filtered list to show only the member at the given {@code targetIndex} in the
      * {@code model}'s club book.
      */
-    public static void showPersonAtIndex(Model model, Index targetIndex) {
-        assertTrue(targetIndex.getZeroBased() < model.getFilteredPersonList().size());
+    public static void showMemberAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredMemberList().size());
 
-        Person person = model.getFilteredPersonList().get(targetIndex.getZeroBased());
-        final String[] splitName = person.getName().fullName.split("\\s+");
-        model.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+        Member member = model.getFilteredMemberList().get(targetIndex.getZeroBased());
+        final String[] splitName = member.getName().fullName.split("\\s+");
+        model.updateFilteredMemberList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
-        assertEquals(1, model.getFilteredPersonList().size());
+        assertEquals(1, model.getFilteredMemberList().size());
     }
 
     /**
-     * Deletes the first person in {@code model}'s filtered list from {@code model}'s club book.
+     * Deletes the first member in {@code model}'s filtered list from {@code model}'s club book.
      */
-    public static void deleteFirstPerson(Model model) {
-        Person firstPerson = model.getFilteredPersonList().get(0);
+    public static void deleteFirstMember(Model model) {
+        Member firstMember = model.getFilteredMemberList().get(0);
         try {
-            model.deletePerson(firstPerson);
-        } catch (PersonNotFoundException pnfe) {
-            throw new AssertionError("Person in filtered list must exist in model.", pnfe);
+            model.deleteMember(firstMember);
+        } catch (MemberNotFoundException pnfe) {
+            throw new AssertionError("Member in filtered list must exist in model.", pnfe);
         }
     }
 

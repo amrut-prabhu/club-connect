@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static seedu.club.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.club.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.club.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.club.testutil.TypicalIndexes.INDEX_FIRST_MEMBER;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +19,7 @@ import seedu.club.logic.commands.AddCommand;
 import seedu.club.logic.commands.ClearCommand;
 import seedu.club.logic.commands.DeleteCommand;
 import seedu.club.logic.commands.EditCommand;
-import seedu.club.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.club.logic.commands.EditCommand.EditMemberDescriptor;
 import seedu.club.logic.commands.ExitCommand;
 import seedu.club.logic.commands.FindByCommand;
 import seedu.club.logic.commands.FindCommand;
@@ -30,12 +30,12 @@ import seedu.club.logic.commands.RedoCommand;
 import seedu.club.logic.commands.SelectCommand;
 import seedu.club.logic.commands.UndoCommand;
 import seedu.club.logic.parser.exceptions.ParseException;
-import seedu.club.model.person.FieldContainsKeywordsPredicate;
-import seedu.club.model.person.NameContainsKeywordsPredicate;
-import seedu.club.model.person.Person;
-import seedu.club.testutil.EditPersonDescriptorBuilder;
-import seedu.club.testutil.PersonBuilder;
-import seedu.club.testutil.PersonUtil;
+import seedu.club.model.member.FieldContainsKeywordsPredicate;
+import seedu.club.model.member.Member;
+import seedu.club.model.member.NameContainsKeywordsPredicate;
+import seedu.club.testutil.EditMemberDescriptorBuilder;
+import seedu.club.testutil.MemberBuilder;
+import seedu.club.testutil.MemberUtil;
 
 public class ClubBookParserTest {
     @Rule
@@ -45,9 +45,9 @@ public class ClubBookParserTest {
 
     @Test
     public void parseCommand_add() throws Exception {
-        Person person = new PersonBuilder().build();
-        AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommand(person));
-        assertEquals(new AddCommand(person), command);
+        Member member = new MemberBuilder().build();
+        AddCommand command = (AddCommand) parser.parseCommand(MemberUtil.getAddCommand(member));
+        assertEquals(new AddCommand(member), command);
     }
 
     @Test
@@ -59,17 +59,17 @@ public class ClubBookParserTest {
     @Test
     public void parseCommand_delete() throws Exception {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
-                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
-        assertEquals(new DeleteCommand(INDEX_FIRST_PERSON), command);
+                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_MEMBER.getOneBased());
+        assertEquals(new DeleteCommand(INDEX_FIRST_MEMBER), command);
     }
 
     @Test
     public void parseCommand_edit() throws Exception {
-        Person person = new PersonBuilder().build();
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
+        Member member = new MemberBuilder().build();
+        EditMemberDescriptor descriptor = new EditMemberDescriptorBuilder(member).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getPersonDetails(person));
-        assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
+                + INDEX_FIRST_MEMBER.getOneBased() + " " + MemberUtil.getMemberDetails(member));
+        assertEquals(new EditCommand(INDEX_FIRST_MEMBER, descriptor), command);
     }
 
     @Test
@@ -124,8 +124,8 @@ public class ClubBookParserTest {
     @Test
     public void parseCommand_select() throws Exception {
         SelectCommand command = (SelectCommand) parser.parseCommand(
-                SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
-        assertEquals(new SelectCommand(INDEX_FIRST_PERSON), command);
+                SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_MEMBER.getOneBased());
+        assertEquals(new SelectCommand(INDEX_FIRST_MEMBER), command);
     }
 
     @Test

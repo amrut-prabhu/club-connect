@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import org.junit.Test;
 
 import seedu.club.model.ClubBook;
-import seedu.club.model.person.Person;
+import seedu.club.model.member.Member;
 import seedu.club.model.util.SampleDataUtil;
 import seedu.club.testutil.TestUtil;
 
@@ -45,7 +45,7 @@ public class SampleDataTest extends ClubBookSystemTest {
 
     @Test
     public void addressBook_dataFileDoesNotExist_loadSampleData() {
-        Person[] expectedList = SampleDataUtil.getSamplePersons();
-        assertListMatching(getPersonListPanel(), expectedList);
+        Member[] expectedList = SampleDataUtil.getSampleMembers();
+        assertListMatching(getMemberListPanel(), expectedList);
     }
 }

@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import seedu.club.logic.commands.FindCommand;
 import seedu.club.logic.parser.exceptions.ParseException;
-import seedu.club.model.person.NameContainsKeywordsPredicate;
+import seedu.club.model.member.NameContainsKeywordsPredicate;
 
 /**
  * Parses input arguments and creates a new FindCommand object

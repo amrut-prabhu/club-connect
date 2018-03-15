@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addressbook>
+    <!-- Member with invalid name field -->
+    <members>
+        <name>Ha!ns Mu@ster</name>
+        <phone isPrivate="false">9482424</phone>
+        <email isPrivate="false">hans@example.com</email>
+        <matricNumber isPrivate="false">4th street</matricNumber>
+        <group isPrivate="false">logistics</group>
+    </members>
+</addressbook>

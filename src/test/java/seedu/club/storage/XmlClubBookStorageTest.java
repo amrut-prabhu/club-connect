@@ -2,10 +2,10 @@ package seedu.club.storage;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static seedu.club.testutil.TypicalPersons.ALICE;
-import static seedu.club.testutil.TypicalPersons.HOON;
-import static seedu.club.testutil.TypicalPersons.IDA;
-import static seedu.club.testutil.TypicalPersons.getTypicalClubBook;
+import static seedu.club.testutil.TypicalMembers.ALICE;
+import static seedu.club.testutil.TypicalMembers.HOON;
+import static seedu.club.testutil.TypicalMembers.IDA;
+import static seedu.club.testutil.TypicalMembers.getTypicalClubBook;
 
 import java.io.IOException;
 
@@ -61,15 +61,15 @@ public class XmlClubBookStorageTest {
     }
 
     @Test
-    public void readClubBook_invalidPersonClubBook_throwDataConversionException() throws Exception {
+    public void readClubBook_invalidMemberClubBook_throwDataConversionException() throws Exception {
         thrown.expect(DataConversionException.class);
-        readClubBook("invalidPersonClubBook.xml");
+        readClubBook("invalidMemberClubBook.xml");
     }
 
     @Test
-    public void readClubBook_invalidAndValidPersonClubBook_throwDataConversionException() throws Exception {
+    public void readClubBook_invalidAndValidMemberClubBook_throwDataConversionException() throws Exception {
         thrown.expect(DataConversionException.class);
-        readClubBook("invalidAndValidPersonClubBook.xml");
+        readClubBook("invalidAndValidMemberClubBook.xml");
     }
 
     @Test
@@ -84,14 +84,14 @@ public class XmlClubBookStorageTest {
         assertEquals(original, new ClubBook(readBack));
 
         //Modify data, overwrite exiting file, and read back
-        original.addPerson(HOON);
-        original.removePerson(ALICE);
+        original.addMember(HOON);
+        original.removeMember(ALICE);
         xmlClubBookStorage.saveClubBook(original, filePath);
         readBack = xmlClubBookStorage.readClubBook(filePath).get();
         assertEquals(original, new ClubBook(readBack));
 
         //Save and read without specifying file path
-        original.addPerson(IDA);
+        original.addMember(IDA);
         xmlClubBookStorage.saveClubBook(original); //file path not specified
         readBack = xmlClubBookStorage.readClubBook().get(); //file path not specified
         assertEquals(original, new ClubBook(readBack));

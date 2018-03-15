@@ -1,7 +1,7 @@
 package seedu.club.logic.commands;
 
 import static seedu.club.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.club.testutil.TypicalPersons.getTypicalClubBook;
+import static seedu.club.testutil.TypicalMembers.getTypicalClubBook;
 
 import org.junit.Test;
 

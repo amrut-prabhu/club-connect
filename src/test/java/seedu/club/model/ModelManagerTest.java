@@ -9,11 +9,11 @@ import static seedu.club.logic.commands.CommandTestUtil.VALID_GROUP_AMY;
 import static seedu.club.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.club.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.club.logic.commands.CommandTestUtil.VALID_TAG_UNUSED;
-import static seedu.club.model.Model.PREDICATE_SHOW_ALL_PERSONS;
-import static seedu.club.testutil.TypicalPersons.ALICE;
-import static seedu.club.testutil.TypicalPersons.AMY;
-import static seedu.club.testutil.TypicalPersons.BENSON;
-import static seedu.club.testutil.TypicalPersons.BOB;
+import static seedu.club.model.Model.PREDICATE_SHOW_ALL_MEMBERS;
+import static seedu.club.testutil.TypicalMembers.ALICE;
+import static seedu.club.testutil.TypicalMembers.AMY;
+import static seedu.club.testutil.TypicalMembers.BENSON;
+import static seedu.club.testutil.TypicalMembers.BOB;
 
 import java.util.Arrays;
 
@@ -24,27 +24,27 @@ import org.junit.rules.ExpectedException;
 import seedu.club.model.group.Group;
 import seedu.club.model.group.exceptions.GroupCannotBeRemovedException;
 import seedu.club.model.group.exceptions.GroupNotFoundException;
-import seedu.club.model.person.NameContainsKeywordsPredicate;
-import seedu.club.model.person.Person;
+import seedu.club.model.member.Member;
+import seedu.club.model.member.NameContainsKeywordsPredicate;
 import seedu.club.model.tag.Tag;
 import seedu.club.model.tag.exceptions.TagNotFoundException;
 import seedu.club.testutil.ClubBookBuilder;
-import seedu.club.testutil.PersonBuilder;
+import seedu.club.testutil.MemberBuilder;
 
 public class ModelManagerTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
+    public void getFilteredMemberList_modifyList_throwsUnsupportedOperationException() {
         ModelManager modelManager = new ModelManager();
         thrown.expect(UnsupportedOperationException.class);
-        modelManager.getFilteredPersonList().remove(0);
+        modelManager.getFilteredMemberList().remove(0);
     }
 
     @Test
     public void removeGroup_nonExistentGroup_modelUnchanged() throws Exception {
-        ClubBook clubBook = new ClubBookBuilder().withPerson(AMY).withPerson(BOB).build();
+        ClubBook clubBook = new ClubBookBuilder().withMember(AMY).withMember(BOB).build();
         UserPrefs userPrefs = new UserPrefs();
 
         ModelManager modelManager = new ModelManager(clubBook, userPrefs);
@@ -57,7 +57,7 @@ public class ModelManagerTest {
 
     @Test
     public void removeGroup_mandatoryGroup_modelUnchanged() throws Exception {
-        ClubBook clubBook = new ClubBookBuilder().withPerson(AMY).withPerson(BOB).build();
+        ClubBook clubBook = new ClubBookBuilder().withMember(AMY).withMember(BOB).build();
         UserPrefs userPrefs = new UserPrefs();
 
         ModelManager modelManager = new ModelManager(clubBook, userPrefs);
@@ -69,17 +69,17 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void removeGroup_atLeastOnePersonInGroup_groupRemoved() throws Exception {
-        ClubBook clubBook = new ClubBookBuilder().withPerson(AMY).withPerson(BOB).build();
+    public void removeGroup_atLeastOneMemberInGroup_groupRemoved() throws Exception {
+        ClubBook clubBook = new ClubBookBuilder().withMember(AMY).withMember(BOB).build();
         UserPrefs userPrefs = new UserPrefs();
 
         ModelManager modelManager = new ModelManager(clubBook, userPrefs);
         modelManager.removeGroup(new Group(VALID_GROUP_AMY));
 
-        Person amyNotInPublicity = new PersonBuilder(AMY).withGroup().build();
-        Person bobNotInPublicity = new PersonBuilder(BOB).build();
-        ClubBook expectedClubBook = new ClubBookBuilder().withPerson(amyNotInPublicity)
-                .withPerson(bobNotInPublicity).build();
+        Member amyNotInPublicity = new MemberBuilder(AMY).withGroup().build();
+        Member bobNotInPublicity = new MemberBuilder(BOB).build();
+        ClubBook expectedClubBook = new ClubBookBuilder().withMember(amyNotInPublicity)
+                .withMember(bobNotInPublicity).build();
 
         assertEquals(new ModelManager(expectedClubBook, userPrefs), modelManager);
 
@@ -87,7 +87,7 @@ public class ModelManagerTest {
 
     @Test
     public void deleteTag_nonExistentTag_modelUnchanged() throws Exception {
-        ClubBook clubBook = new ClubBookBuilder().withPerson(AMY).withPerson(BOB).build();
+        ClubBook clubBook = new ClubBookBuilder().withMember(AMY).withMember(BOB).build();
         UserPrefs userPrefs = new UserPrefs();
 
         ModelManager modelManager = new ModelManager(clubBook, userPrefs);
@@ -99,24 +99,24 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void deleteTag_tagUsedByMultiplePersons_tagRemoved() throws Exception {
-        ClubBook clubBook = new ClubBookBuilder().withPerson(AMY).withPerson(BOB).build();
+    public void deleteTag_tagUsedByMultipleMembers_tagRemoved() throws Exception {
+        ClubBook clubBook = new ClubBookBuilder().withMember(AMY).withMember(BOB).build();
         UserPrefs userPrefs = new UserPrefs();
 
         ModelManager modelManager = new ModelManager(clubBook, userPrefs);
         modelManager.deleteTag(new Tag(VALID_TAG_FRIEND));
 
-        Person amyWithoutFriendTag = new PersonBuilder(AMY).withTags().build();
-        Person bobWithoutFriendTag = new PersonBuilder(BOB).withTags(VALID_TAG_HUSBAND).build();
-        ClubBook expectedClubBook = new ClubBookBuilder().withPerson(amyWithoutFriendTag)
-                .withPerson(bobWithoutFriendTag).build();
+        Member amyWithoutFriendTag = new MemberBuilder(AMY).withTags().build();
+        Member bobWithoutFriendTag = new MemberBuilder(BOB).withTags(VALID_TAG_HUSBAND).build();
+        ClubBook expectedClubBook = new ClubBookBuilder().withMember(amyWithoutFriendTag)
+                .withMember(bobWithoutFriendTag).build();
 
         assertEquals(new ModelManager(expectedClubBook, userPrefs), modelManager);
     }
 
     @Test
     public void equals() {
-        ClubBook clubBook = new ClubBookBuilder().withPerson(ALICE).withPerson(BENSON).build();
+        ClubBook clubBook = new ClubBookBuilder().withMember(ALICE).withMember(BENSON).build();
         ClubBook differentClubBook = new ClubBook();
         UserPrefs userPrefs = new UserPrefs();
 
@@ -139,11 +139,11 @@ public class ModelManagerTest {
 
         // different filteredList -> returns false
         String[] keywords = ALICE.getName().fullName.split("\\s+");
-        modelManager.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
+        modelManager.updateFilteredMemberList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
         assertFalse(modelManager.equals(new ModelManager(clubBook, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests
-        modelManager.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        modelManager.updateFilteredMemberList(PREDICATE_SHOW_ALL_MEMBERS);
 
         // different userPrefs -> returns true
         UserPrefs differentUserPrefs = new UserPrefs();

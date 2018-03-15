@@ -15,11 +15,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.club.model.ClubBook;
-import seedu.club.storage.XmlAdaptedPerson;
+import seedu.club.storage.XmlAdaptedMember;
 import seedu.club.storage.XmlAdaptedTag;
 import seedu.club.storage.XmlSerializableClubBook;
 import seedu.club.testutil.ClubBookBuilder;
-import seedu.club.testutil.PersonBuilder;
+import seedu.club.testutil.MemberBuilder;
 import seedu.club.testutil.TestUtil;
 
 public class XmlUtilTest {
@@ -27,11 +27,11 @@ public class XmlUtilTest {
     private static final String TEST_DATA_FOLDER = FileUtil.getPath("src/test/data/XmlUtilTest/");
     private static final File EMPTY_FILE = new File(TEST_DATA_FOLDER + "empty.xml");
     private static final File MISSING_FILE = new File(TEST_DATA_FOLDER + "missing.xml");
-    private static final File VALID_FILE = new File(TEST_DATA_FOLDER + "validAddressBook.xml");
-    private static final File MISSING_PERSON_FIELD_FILE = new File(TEST_DATA_FOLDER + "missingPersonField.xml");
-    private static final File INVALID_PERSON_FIELD_FILE = new File(TEST_DATA_FOLDER + "invalidPersonField.xml");
-    private static final File VALID_PERSON_FILE = new File(TEST_DATA_FOLDER + "validPerson.xml");
-    private static final File TEMP_FILE = new File(TestUtil.getFilePathInSandboxFolder("tempAddressBook.xml"));
+    private static final File VALID_FILE = new File(TEST_DATA_FOLDER + "validClubBook.xml");
+    private static final File MISSING_MEMBER_FIELD_FILE = new File(TEST_DATA_FOLDER + "missingMemberField.xml");
+    private static final File INVALID_MEMBER_FIELD_FILE = new File(TEST_DATA_FOLDER + "invalidMemberField.xml");
+    private static final File VALID_MEMBER_FILE = new File(TEST_DATA_FOLDER + "validMember.xml");
+    private static final File TEMP_FILE = new File(TestUtil.getFilePathInSandboxFolder("tempClubBook.xml"));
 
     private static final String INVALID_PHONE = "9482asf424";
 
@@ -74,38 +74,38 @@ public class XmlUtilTest {
     @Test
     public void getDataFromFile_validFile_validResult() throws Exception {
         ClubBook dataFromFile = XmlUtil.getDataFromFile(VALID_FILE, XmlSerializableClubBook.class).toModelType();
-        assertEquals(9, dataFromFile.getPersonList().size());
+        assertEquals(9, dataFromFile.getMemberList().size());
         assertEquals(0, dataFromFile.getTagList().size());
     }
 
     @Test
-    public void xmlAdaptedPersonFromFile_fileWithMissingPersonField_validResult() throws Exception {
-        XmlAdaptedPerson actualPerson = XmlUtil.getDataFromFile(
-                MISSING_PERSON_FIELD_FILE, XmlAdaptedPersonWithRootElement.class);
-        XmlAdaptedPerson expectedPerson = new XmlAdaptedPerson(
+    public void xmlAdaptedMemberFromFile_fileWithMissingMemberField_validResult() throws Exception {
+        XmlAdaptedMember actualMember = XmlUtil.getDataFromFile(
+                MISSING_MEMBER_FIELD_FILE, XmlAdaptedMemberWithRootElement.class);
+        XmlAdaptedMember expectedMember = new XmlAdaptedMember(
                 null, VALID_PHONE, VALID_EMAIL, VALID_MATRIC_NUMBER, VALID_GROUP, VALID_TAGS,
                 VALID_USERNAME, VALID_PASSWORD);
-        assertEquals(expectedPerson, actualPerson);
+        assertEquals(expectedMember, actualMember);
     }
 
     @Test
-    public void xmlAdaptedPersonFromFile_fileWithInvalidPersonField_validResult() throws Exception {
-        XmlAdaptedPerson actualPerson = XmlUtil.getDataFromFile(
-                INVALID_PERSON_FIELD_FILE, XmlAdaptedPersonWithRootElement.class);
-        XmlAdaptedPerson expectedPerson = new XmlAdaptedPerson(
+    public void xmlAdaptedMemberFromFile_fileWithInvalidMemberField_validResult() throws Exception {
+        XmlAdaptedMember actualMember = XmlUtil.getDataFromFile(
+                INVALID_MEMBER_FIELD_FILE, XmlAdaptedMemberWithRootElement.class);
+        XmlAdaptedMember expectedMember = new XmlAdaptedMember(
                 VALID_NAME, INVALID_PHONE, VALID_EMAIL, VALID_MATRIC_NUMBER, VALID_GROUP, VALID_TAGS,
                 VALID_USERNAME, VALID_PASSWORD);
-        assertEquals(expectedPerson, actualPerson);
+        assertEquals(expectedMember, actualMember);
     }
 
     @Test
-    public void xmlAdaptedPersonFromFile_fileWithValidPerson_validResult() throws Exception {
-        XmlAdaptedPerson actualPerson = XmlUtil.getDataFromFile(
-                VALID_PERSON_FILE, XmlAdaptedPersonWithRootElement.class);
-        XmlAdaptedPerson expectedPerson = new XmlAdaptedPerson(
+    public void xmlAdaptedMemberFromFile_fileWithValidMember_validResult() throws Exception {
+        XmlAdaptedMember actualMember = XmlUtil.getDataFromFile(
+                VALID_MEMBER_FILE, XmlAdaptedMemberWithRootElement.class);
+        XmlAdaptedMember expectedMember = new XmlAdaptedMember(
                 VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_MATRIC_NUMBER, VALID_GROUP,
                 VALID_TAGS, VALID_USERNAME, VALID_PASSWORD);
-        assertEquals(expectedPerson, actualPerson);
+        assertEquals(expectedMember, actualMember);
     }
 
     @Test
@@ -136,7 +136,7 @@ public class XmlUtilTest {
 
         ClubBookBuilder builder = new ClubBookBuilder(new ClubBook());
         dataToWrite = new XmlSerializableClubBook(
-                builder.withPerson(new PersonBuilder().build()).withTag("Friends").build());
+                builder.withMember(new MemberBuilder().build()).withTag("Friends").build());
 
         XmlUtil.saveDataToFile(TEMP_FILE, dataToWrite);
         dataFromFile = XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableClubBook.class);
@@ -144,9 +144,9 @@ public class XmlUtilTest {
     }
 
     /**
-     * Test class annotated with {@code XmlRootElement} to allow unmarshalling of .xml data to {@code XmlAdaptedPerson}
+     * Test class annotated with {@code XmlRootElement} to allow unmarshalling of .xml data to {@code XmlAdaptedMember}
      * objects.
      */
-    @XmlRootElement(name = "person")
-    private static class XmlAdaptedPersonWithRootElement extends XmlAdaptedPerson {}
+    @XmlRootElement(name = "member")
+    private static class XmlAdaptedMemberWithRootElement extends XmlAdaptedMember {}
 }

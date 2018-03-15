@@ -9,6 +9,6 @@
       "z" : 99
     }
   },
-  "addressBookFilePath" : "addressbook.xml",
-  "addressBookName" : "TypicalAddressBookName"
+  "clubBookFilePath": "clubbook.xml",
+  "clubBookName": "TypicalClubBookName"
 }

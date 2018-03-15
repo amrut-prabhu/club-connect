@@ -19,7 +19,7 @@ import java.util.Set;
 import seedu.club.commons.core.index.Index;
 import seedu.club.commons.exceptions.IllegalValueException;
 import seedu.club.logic.commands.EditCommand;
-import seedu.club.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.club.logic.commands.EditCommand.EditMemberDescriptor;
 import seedu.club.logic.parser.exceptions.ParseException;
 import seedu.club.model.tag.Tag;
 
@@ -47,25 +47,25 @@ public class EditCommandParser implements Parser<EditCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
         }
 
-        EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
+        EditMemberDescriptor editMemberDescriptor = new EditMemberDescriptor();
         try {
-            ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).ifPresent(editPersonDescriptor::setName);
-            ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).ifPresent(editPersonDescriptor::setPhone);
-            ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL)).ifPresent(editPersonDescriptor::setEmail);
+            ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).ifPresent(editMemberDescriptor::setName);
+            ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).ifPresent(editMemberDescriptor::setPhone);
+            ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL)).ifPresent(editMemberDescriptor::setEmail);
             ParserUtil.parseMatricNumber(argMultimap.getValue(PREFIX_MATRIC_NUMBER))
-                    .ifPresent(editPersonDescriptor::setMatricNumber);
-            ParserUtil.parseGroup(argMultimap.getValue(PREFIX_GROUP)).ifPresent(editPersonDescriptor::setGroup);
-            parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
+                    .ifPresent(editMemberDescriptor::setMatricNumber);
+            ParserUtil.parseGroup(argMultimap.getValue(PREFIX_GROUP)).ifPresent(editMemberDescriptor::setGroup);
+            parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editMemberDescriptor::setTags);
 
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }
 
-        if (!editPersonDescriptor.isAnyFieldEdited()) {
+        if (!editMemberDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
 
-        return new EditCommand(index, editPersonDescriptor);
+        return new EditCommand(index, editMemberDescriptor);
     }
 
     /**

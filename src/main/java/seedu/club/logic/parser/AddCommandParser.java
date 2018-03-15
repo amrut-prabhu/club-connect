@@ -17,13 +17,13 @@ import seedu.club.commons.exceptions.IllegalValueException;
 import seedu.club.logic.commands.AddCommand;
 import seedu.club.logic.parser.exceptions.ParseException;
 import seedu.club.model.group.Group;
-import seedu.club.model.person.Email;
-import seedu.club.model.person.MatricNumber;
-import seedu.club.model.person.Name;
-import seedu.club.model.person.Password;
-import seedu.club.model.person.Person;
-import seedu.club.model.person.Phone;
-import seedu.club.model.person.Username;
+import seedu.club.model.member.Email;
+import seedu.club.model.member.MatricNumber;
+import seedu.club.model.member.Member;
+import seedu.club.model.member.Name;
+import seedu.club.model.member.Password;
+import seedu.club.model.member.Phone;
+import seedu.club.model.member.Username;
 import seedu.club.model.tag.Tag;
 
 /**
@@ -57,9 +57,9 @@ public class AddCommandParser implements Parser<AddCommand> {
             Username username = ParserUtil.parseUsername(argMultimap.getValue(PREFIX_USERNAME)).get();
             Password password = ParserUtil.parsePassword(argMultimap.getValue(PREFIX_PASSWORD)).get();
 
-            Person person = new Person(name, phone, email, matricNumber, group, tagList, username, password);
+            Member member = new Member(name, phone, email, matricNumber, group, tagList, username, password);
 
-            return new AddCommand(person);
+            return new AddCommand(member);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }

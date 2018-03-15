@@ -7,10 +7,10 @@ import static seedu.club.logic.commands.CommandTestUtil.VALID_GROUP_BOB;
 import static seedu.club.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.club.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.club.logic.commands.CommandTestUtil.VALID_TAG_UNUSED;
-import static seedu.club.testutil.TypicalPersons.ALICE;
-import static seedu.club.testutil.TypicalPersons.AMY;
-import static seedu.club.testutil.TypicalPersons.BOB;
-import static seedu.club.testutil.TypicalPersons.getTypicalClubBook;
+import static seedu.club.testutil.TypicalMembers.ALICE;
+import static seedu.club.testutil.TypicalMembers.AMY;
+import static seedu.club.testutil.TypicalMembers.BOB;
+import static seedu.club.testutil.TypicalMembers.getTypicalClubBook;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,11 +27,11 @@ import javafx.collections.ObservableList;
 import seedu.club.model.group.Group;
 import seedu.club.model.group.exceptions.GroupCannotBeRemovedException;
 import seedu.club.model.group.exceptions.GroupNotFoundException;
-import seedu.club.model.person.Person;
+import seedu.club.model.member.Member;
 import seedu.club.model.tag.Tag;
 import seedu.club.model.tag.exceptions.TagNotFoundException;
 import seedu.club.testutil.ClubBookBuilder;
-import seedu.club.testutil.PersonBuilder;
+import seedu.club.testutil.MemberBuilder;
 
 public class ClubBookTest {
 
@@ -39,12 +39,12 @@ public class ClubBookTest {
     public ExpectedException thrown = ExpectedException.none();
 
     private final ClubBook clubBook = new ClubBook();
-    private final ClubBook clubBookWithBobAndAmy = new ClubBookBuilder().withPerson(BOB).withPerson(AMY)
+    private final ClubBook clubBookWithBobAndAmy = new ClubBookBuilder().withMember(BOB).withMember(AMY)
             .build();
 
     @Test
     public void constructor() {
-        assertEquals(Collections.emptyList(), clubBook.getPersonList());
+        assertEquals(Collections.emptyList(), clubBook.getMemberList());
         assertEquals(Collections.emptyList(), clubBook.getTagList());
     }
 
@@ -53,7 +53,7 @@ public class ClubBookTest {
         try {
             clubBookWithBobAndAmy.removeGroup(new Group(NON_EXISTENT_GROUP));
         } catch (GroupNotFoundException gnfe) {
-            ClubBook expectedClubBook = new ClubBookBuilder().withPerson(BOB).withPerson(AMY).build();
+            ClubBook expectedClubBook = new ClubBookBuilder().withMember(BOB).withMember(AMY).build();
             assertEquals(expectedClubBook, clubBookWithBobAndAmy);
         }
     }
@@ -63,29 +63,29 @@ public class ClubBookTest {
         try {
             clubBookWithBobAndAmy.removeGroup(new Group(MANDATORY_GROUP));
         } catch (GroupCannotBeRemovedException e) {
-            ClubBook expectedClubBook = new ClubBookBuilder().withPerson(BOB).withPerson(AMY).build();
+            ClubBook expectedClubBook = new ClubBookBuilder().withMember(BOB).withMember(AMY).build();
             assertEquals(expectedClubBook, clubBookWithBobAndAmy);
         }
     }
 
     @Test
-    public void removeGroup_atLeastOnePersonInGroup_groupRemoved() throws Exception {
+    public void removeGroup_atLeastOneMemberInGroup_groupRemoved() throws Exception {
         clubBookWithBobAndAmy.removeGroup(new Group(VALID_GROUP_BOB));
 
-        Person bobNotInLogistics = new PersonBuilder(BOB).withGroup().build();
-        Person amyNotInLogistics = new PersonBuilder(AMY).build();
-        ClubBook expectedClubBook = new ClubBookBuilder().withPerson(bobNotInLogistics)
-                .withPerson(amyNotInLogistics).build();
+        Member bobNotInLogistics = new MemberBuilder(BOB).withGroup().build();
+        Member amyNotInLogistics = new MemberBuilder(AMY).build();
+        ClubBook expectedClubBook = new ClubBookBuilder().withMember(bobNotInLogistics)
+                .withMember(amyNotInLogistics).build();
 
         assertEquals(expectedClubBook, clubBookWithBobAndAmy);
     }
 
     @Test
-    public void updatePerson_detailsChanged_personUpdated() throws Exception {
-        ClubBook updatedToBob = new ClubBookBuilder().withPerson(AMY).build();
-        updatedToBob.updatePerson(AMY, BOB);
+    public void updateMember_detailsChanged_memberUpdated() throws Exception {
+        ClubBook updatedToBob = new ClubBookBuilder().withMember(AMY).build();
+        updatedToBob.updateMember(AMY, BOB);
 
-        ClubBook expectedClubBook = new ClubBookBuilder().withPerson(BOB).build();
+        ClubBook expectedClubBook = new ClubBookBuilder().withMember(BOB).build();
 
         assertEquals(expectedClubBook, updatedToBob);
     }
@@ -104,20 +104,20 @@ public class ClubBookTest {
     }
 
     @Test
-    public void resetData_withDuplicatePersons_throwsAssertionError() {
+    public void resetData_withDuplicateMembers_throwsAssertionError() {
         // Repeat ALICE twice
-        List<Person> newPersons = Arrays.asList(ALICE, ALICE);
+        List<Member> newMembers = Arrays.asList(ALICE, ALICE);
         List<Tag> newTags = new ArrayList<>(ALICE.getTags());
-        ClubBookStub newData = new ClubBookStub(newPersons, newTags);
+        ClubBookStub newData = new ClubBookStub(newMembers, newTags);
 
         thrown.expect(AssertionError.class);
         clubBook.resetData(newData);
     }
 
     @Test
-    public void getPersonList_modifyList_throwsUnsupportedOperationException() {
+    public void getMemberList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
-        clubBook.getPersonList().remove(0);
+        clubBook.getMemberList().remove(0);
     }
 
     @Test
@@ -127,11 +127,11 @@ public class ClubBookTest {
     }
 
     @Test
-    public void updatePerson_detailsChanged_personsAndTagsListUpdated() throws Exception {
-        ClubBook clubBookUpdatedToAmy = new ClubBookBuilder().withPerson(BOB).build();
-        clubBookUpdatedToAmy.updatePerson(BOB, AMY);
+    public void updateMember_detailsChanged_membersAndTagsListUpdated() throws Exception {
+        ClubBook clubBookUpdatedToAmy = new ClubBookBuilder().withMember(BOB).build();
+        clubBookUpdatedToAmy.updateMember(BOB, AMY);
 
-        ClubBook expectedClubBook = new ClubBookBuilder().withPerson(AMY).build();
+        ClubBook expectedClubBook = new ClubBookBuilder().withMember(AMY).build();
 
         assertEquals(expectedClubBook, clubBookUpdatedToAmy);
     }
@@ -141,38 +141,38 @@ public class ClubBookTest {
         try {
             clubBookWithBobAndAmy.deleteTag(new Tag(VALID_TAG_UNUSED));
         } catch (TagNotFoundException tnfe) {
-            ClubBook expectedClubBook = new ClubBookBuilder().withPerson(BOB).withPerson(AMY).build();
+            ClubBook expectedClubBook = new ClubBookBuilder().withMember(BOB).withMember(AMY).build();
             assertEquals(expectedClubBook, clubBookWithBobAndAmy);
         }
     }
 
     @Test
-    public void deleteTag_tagUsedByMultiplePersons_tagRemoved() throws Exception {
+    public void deleteTag_tagUsedByMultipleMembers_tagRemoved() throws Exception {
         clubBookWithBobAndAmy.deleteTag(new Tag(VALID_TAG_FRIEND));
 
-        Person amyWithoutFriendTag = new PersonBuilder(AMY).withTags().build();
-        Person bobWithoutFriendTag = new PersonBuilder(BOB).withTags(VALID_TAG_HUSBAND).build();
-        ClubBook expectedClubBook = new ClubBookBuilder().withPerson(bobWithoutFriendTag)
-                .withPerson(amyWithoutFriendTag).build();
+        Member amyWithoutFriendTag = new MemberBuilder(AMY).withTags().build();
+        Member bobWithoutFriendTag = new MemberBuilder(BOB).withTags(VALID_TAG_HUSBAND).build();
+        ClubBook expectedClubBook = new ClubBookBuilder().withMember(bobWithoutFriendTag)
+                .withMember(amyWithoutFriendTag).build();
 
         assertEquals(expectedClubBook, clubBookWithBobAndAmy);
     }
 
     /**
-     * A stub ReadOnlyClubBook whose persons and tags lists can violate interface constraints.
+     * A stub ReadOnlyClubBook whose members and tags lists can violate interface constraints.
      */
     private static class ClubBookStub implements ReadOnlyClubBook {
-        private final ObservableList<Person> persons = FXCollections.observableArrayList();
+        private final ObservableList<Member> members = FXCollections.observableArrayList();
         private final ObservableList<Tag> tags = FXCollections.observableArrayList();
 
-        ClubBookStub(Collection<Person> persons, Collection<? extends Tag> tags) {
-            this.persons.setAll(persons);
+        ClubBookStub(Collection<Member> members, Collection<? extends Tag> tags) {
+            this.members.setAll(members);
             this.tags.setAll(tags);
         }
 
         @Override
-        public ObservableList<Person> getPersonList() {
-            return persons;
+        public ObservableList<Member> getMemberList() {
+            return members;
         }
 
         @Override

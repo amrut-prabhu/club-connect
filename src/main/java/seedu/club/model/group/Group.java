@@ -4,12 +4,12 @@ import static java.util.Objects.requireNonNull;
 import static seedu.club.commons.util.AppUtil.checkArgument;
 
 /**
- * Represents a Person's Group in the club book
+ * Represents a Member's Group in the club book
  * Guarantees: immutable; is valid as declared in {@link #isValidGroup(String)}
  */
 public class Group {
     public static final String MESSAGE_GROUP_CONSTRAINTS =
-            "Person groups should only contain alphanumeric characters, and it should not be blank";
+            "Member groups should only contain alphanumeric characters, and it should not be blank";
 
     /*
      * The first character of the group must not be a whitespace,
@@ -33,7 +33,7 @@ public class Group {
     }
 
     /**
-     * Returns true if given string is a valid person group.
+     * Returns true if given string is a valid member group.
      */
     public static Boolean isValidGroup(String test) {
         return test.matches(GROUP_VALIDATION_REGEX);

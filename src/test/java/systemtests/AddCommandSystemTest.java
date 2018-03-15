@@ -32,13 +32,13 @@ import static seedu.club.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.club.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.club.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.club.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.club.testutil.TypicalPersons.ALICE;
-import static seedu.club.testutil.TypicalPersons.AMY;
-import static seedu.club.testutil.TypicalPersons.BOB;
-import static seedu.club.testutil.TypicalPersons.CARL;
-import static seedu.club.testutil.TypicalPersons.HOON;
-import static seedu.club.testutil.TypicalPersons.IDA;
-import static seedu.club.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
+import static seedu.club.testutil.TypicalMembers.ALICE;
+import static seedu.club.testutil.TypicalMembers.AMY;
+import static seedu.club.testutil.TypicalMembers.BOB;
+import static seedu.club.testutil.TypicalMembers.CARL;
+import static seedu.club.testutil.TypicalMembers.HOON;
+import static seedu.club.testutil.TypicalMembers.IDA;
+import static seedu.club.testutil.TypicalMembers.KEYWORD_MATCHING_MEIER;
 
 import org.junit.Test;
 
@@ -48,15 +48,15 @@ import seedu.club.logic.commands.AddCommand;
 import seedu.club.logic.commands.RedoCommand;
 import seedu.club.logic.commands.UndoCommand;
 import seedu.club.model.Model;
-import seedu.club.model.person.Email;
-import seedu.club.model.person.MatricNumber;
-import seedu.club.model.person.Name;
-import seedu.club.model.person.Person;
-import seedu.club.model.person.Phone;
-import seedu.club.model.person.exceptions.DuplicatePersonException;
+import seedu.club.model.member.Email;
+import seedu.club.model.member.MatricNumber;
+import seedu.club.model.member.Member;
+import seedu.club.model.member.Name;
+import seedu.club.model.member.Phone;
+import seedu.club.model.member.exceptions.DuplicateMemberException;
 import seedu.club.model.tag.Tag;
-import seedu.club.testutil.PersonBuilder;
-import seedu.club.testutil.PersonUtil;
+import seedu.club.testutil.MemberBuilder;
+import seedu.club.testutil.MemberUtil;
 
 public class AddCommandSystemTest extends ClubBookSystemTest {
 
@@ -66,10 +66,10 @@ public class AddCommandSystemTest extends ClubBookSystemTest {
 
         /* ------------------------ Perform add operations on the shown unfiltered list ----------------------------- */
 
-        /* Case: add a person without tags to a non-empty club book, command with leading spaces and trailing spaces
+        /* Case: add a member without tags to a non-empty club book, command with leading spaces and trailing spaces
          * -> added
          */
-        Person toAdd = AMY;
+        Member toAdd = AMY;
         String command = "   " + AddCommand.COMMAND_WORD + "  " + NAME_DESC_AMY + "  " + PHONE_DESC_AMY + " "
                 + EMAIL_DESC_AMY + "   " + MATRIC_NUMBER_DESC_AMY + "   "
                 + GROUP_DESC_AMY + "   " + TAG_DESC_FRIEND + " " + " " + USERNAME_DESC_AMY + " " + PASSWORD_DESC;
@@ -82,38 +82,38 @@ public class AddCommandSystemTest extends ClubBookSystemTest {
 
         /* Case: redo adding Amy to the list -> Amy added again */
         command = RedoCommand.COMMAND_WORD;
-        model.addPerson(toAdd);
+        model.addMember(toAdd);
         expectedResultMessage = RedoCommand.MESSAGE_SUCCESS;
         assertCommandSuccess(command, model, expectedResultMessage);
 
-        /* Case: add a person with all fields same as another person in the club book except name -> added */
-        toAdd = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY)
+        /* Case: add a member with all fields same as another member in the club book except name -> added */
+        toAdd = new MemberBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY)
                 .withMatricNumber(VALID_MATRIC_NUMBER_AMY).withGroup(VALID_GROUP_AMY)
                 .withTags(VALID_TAG_FRIEND).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_BOB + PHONE_DESC_AMY + EMAIL_DESC_AMY + MATRIC_NUMBER_DESC_AMY
                 + GROUP_DESC_AMY + TAG_DESC_FRIEND + USERNAME_DESC_BOB + PASSWORD_DESC;
         assertCommandSuccess(command, toAdd);
 
-        /* Case: add a person with all fields same as another person in the club book except phone -> added */
-        toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY)
+        /* Case: add a member with all fields same as another member in the club book except phone -> added */
+        toAdd = new MemberBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY)
                 .withMatricNumber(VALID_MATRIC_NUMBER_AMY).withGroup(VALID_GROUP_AMY)
                 .withTags(VALID_TAG_FRIEND).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_BOB + EMAIL_DESC_AMY + MATRIC_NUMBER_DESC_AMY
                 + GROUP_DESC_AMY + TAG_DESC_FRIEND + USERNAME_DESC_AMY + PASSWORD_DESC;
         assertCommandSuccess(command, toAdd);
 
-        /* Case: add a person with all fields same as another person in the club book except email -> added */
-        toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_BOB)
+        /* Case: add a member with all fields same as another member in the club book except email -> added */
+        toAdd = new MemberBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_BOB)
                 .withMatricNumber(VALID_MATRIC_NUMBER_AMY).withGroup(VALID_GROUP_AMY)
                 .withTags(VALID_TAG_FRIEND).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_BOB + MATRIC_NUMBER_DESC_AMY
                 + GROUP_DESC_AMY + TAG_DESC_FRIEND + USERNAME_DESC_AMY + PASSWORD_DESC;
         assertCommandSuccess(command, toAdd);
 
-        /* Case: add a person with all fields same as another person in the club book
+        /* Case: add a member with all fields same as another member in the club book
          * except matric number -> added
          */
-        toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY)
+        toAdd = new MemberBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY)
                 .withMatricNumber(VALID_MATRIC_NUMBER_BOB).withGroup(VALID_GROUP_AMY)
                 .withTags(VALID_TAG_FRIEND).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + MATRIC_NUMBER_DESC_BOB
@@ -121,42 +121,42 @@ public class AddCommandSystemTest extends ClubBookSystemTest {
         assertCommandSuccess(command, toAdd);
 
         /* Case: add to empty club book -> added */
-        deleteAllPersons();
+        deleteAllMembers();
         assertCommandSuccess(ALICE);
 
-        /* Case: add a person with tags, command with parameters in random order -> added */
+        /* Case: add a member with tags, command with parameters in random order -> added */
         toAdd = BOB;
         command = AddCommand.COMMAND_WORD + TAG_DESC_FRIEND + PHONE_DESC_BOB + MATRIC_NUMBER_DESC_BOB + NAME_DESC_BOB
                 + GROUP_DESC_BOB + TAG_DESC_HUSBAND + EMAIL_DESC_BOB + USERNAME_DESC_BOB + PASSWORD_DESC;
         assertCommandSuccess(command, toAdd);
 
-        /* Case: add a person, missing tags -> added */
+        /* Case: add a member, missing tags -> added */
         assertCommandSuccess(HOON);
 
         /* -------------------------- Perform add operation on the shown filtered list ------------------------------ */
 
-        /* Case: filters the person list before adding -> added */
-        showPersonsWithName(KEYWORD_MATCHING_MEIER);
+        /* Case: filters the member list before adding -> added */
+        showMembersWithName(KEYWORD_MATCHING_MEIER);
         assertCommandSuccess(IDA);
 
-        /* ------------------------ Perform add operation while a person card is selected --------------------------- */
+        /* ------------------------ Perform add operation while a member card is selected --------------------------- */
 
-        /* Case: selects first card in the person list, add a person -> added, card selection remains unchanged */
-        selectPerson(Index.fromOneBased(1));
+        /* Case: selects first card in the member list, add a member -> added, card selection remains unchanged */
+        selectMember(Index.fromOneBased(1));
         assertCommandSuccess(CARL);
 
         /* ----------------------------------- Perform invalid add operations --------------------------------------- */
 
-        /* Case: add a duplicate person -> rejected */
-        command = PersonUtil.getAddCommand(HOON);
-        assertCommandFailure(command, AddCommand.MESSAGE_DUPLICATE_PERSON);
+        /* Case: add a duplicate member -> rejected */
+        command = MemberUtil.getAddCommand(HOON);
+        assertCommandFailure(command, AddCommand.MESSAGE_DUPLICATE_MEMBER);
 
-        /* Case: add a duplicate person except with different tags -> rejected */
-        // "friends" is an existing tag used in the default model, see TypicalPersons#ALICE
+        /* Case: add a duplicate member except with different tags -> rejected */
+        // "friends" is an existing tag used in the default model, see TypicalMembers#ALICE
         // This test will fail if a new tag that is not in the model is used, see the bug documented in
-        // ClubBook#addPerson(Person)
-        command = PersonUtil.getAddCommand(HOON) + " " + PREFIX_TAG.getPrefix() + "friends";
-        assertCommandFailure(command, AddCommand.MESSAGE_DUPLICATE_PERSON);
+        // ClubBook#addMember(Member)
+        command = MemberUtil.getAddCommand(HOON) + " " + PREFIX_TAG.getPrefix() + "friends";
+        assertCommandFailure(command, AddCommand.MESSAGE_DUPLICATE_MEMBER);
 
         /* Case: missing name -> rejected */
         command = AddCommand.COMMAND_WORD + PHONE_DESC_AMY + EMAIL_DESC_AMY + MATRIC_NUMBER_DESC_AMY;
@@ -175,7 +175,7 @@ public class AddCommandSystemTest extends ClubBookSystemTest {
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
 
         /* Case: invalid keyword -> rejected */
-        command = "adds " + PersonUtil.getPersonDetails(toAdd);
+        command = "adds " + MemberUtil.getMemberDetails(toAdd);
         assertCommandFailure(command, Messages.MESSAGE_UNKNOWN_COMMAND);
 
         /* Case: invalid name -> rejected */
@@ -210,7 +210,7 @@ public class AddCommandSystemTest extends ClubBookSystemTest {
      * 2. Command box has the default style class.<br>
      * 3. Result display box displays the success message of executing {@code AddCommand} with the details of
      * {@code toAdd}.<br>
-     * 4. {@code Model}, {@code Storage} and {@code PersonListPanel} equal to the corresponding components in
+     * 4. {@code Model}, {@code Storage} and {@code MemberListPanel} equal to the corresponding components in
      * the current model added with {@code toAdd}.<br>
      * 5. Browser url and selected card remain unchanged.<br>
      * 6. Status bar's sync status changes.<br>
@@ -218,20 +218,20 @@ public class AddCommandSystemTest extends ClubBookSystemTest {
      * {@code ClubBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
      * @see ClubBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)
      */
-    private void assertCommandSuccess(Person toAdd) {
-        assertCommandSuccess(PersonUtil.getAddCommand(toAdd), toAdd);
+    private void assertCommandSuccess(Member toAdd) {
+        assertCommandSuccess(MemberUtil.getAddCommand(toAdd), toAdd);
     }
 
     /**
-     * Performs the same verification as {@code assertCommandSuccess(Person)}. Executes {@code command}
+     * Performs the same verification as {@code assertCommandSuccess(Member)}. Executes {@code command}
      * instead.
-     * @see AddCommandSystemTest#assertCommandSuccess(Person)
+     * @see AddCommandSystemTest#assertCommandSuccess(Member)
      */
-    private void assertCommandSuccess(String command, Person toAdd) {
+    private void assertCommandSuccess(String command, Member toAdd) {
         Model expectedModel = getModel();
         try {
-            expectedModel.addPerson(toAdd);
-        } catch (DuplicatePersonException dpe) {
+            expectedModel.addMember(toAdd);
+        } catch (DuplicateMemberException dpe) {
             throw new IllegalArgumentException("toAdd already exists in the model.");
         }
         String expectedResultMessage = String.format(AddCommand.MESSAGE_SUCCESS, toAdd);
@@ -240,12 +240,12 @@ public class AddCommandSystemTest extends ClubBookSystemTest {
     }
 
     /**
-     * Performs the same verification as {@code assertCommandSuccess(String, Person)} except asserts that
+     * Performs the same verification as {@code assertCommandSuccess(String, Member)} except asserts that
      * the,<br>
      * 1. Result display box displays {@code expectedResultMessage}.<br>
-     * 2. {@code Model}, {@code Storage} and {@code PersonListPanel} equal to the corresponding components in
+     * 2. {@code Model}, {@code Storage} and {@code MemberListPanel} equal to the corresponding components in
      * {@code expectedModel}.<br>
-     * @see AddCommandSystemTest#assertCommandSuccess(String, Person)
+     * @see AddCommandSystemTest#assertCommandSuccess(String, Member)
      */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
         executeCommand(command);
@@ -260,7 +260,7 @@ public class AddCommandSystemTest extends ClubBookSystemTest {
      * 1. Command box displays {@code command}.<br>
      * 2. Command box has the error style class.<br>
      * 3. Result display box displays {@code expectedResultMessage}.<br>
-     * 4. {@code Model}, {@code Storage} and {@code PersonListPanel} remain unchanged.<br>
+     * 4. {@code Model}, {@code Storage} and {@code MemberListPanel} remain unchanged.<br>
      * 5. Browser url, selected card and status bar remain unchanged.<br>
      * Verifications 1, 3 and 4 are performed by
      * {@code ClubBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>

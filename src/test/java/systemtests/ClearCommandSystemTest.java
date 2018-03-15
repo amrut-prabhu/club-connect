@@ -1,7 +1,7 @@
 package systemtests;
 
 import static seedu.club.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.club.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
+import static seedu.club.testutil.TypicalMembers.KEYWORD_MATCHING_MEIER;
 
 import org.junit.Test;
 
@@ -36,15 +36,15 @@ public class ClearCommandSystemTest extends ClubBookSystemTest {
         assertCommandSuccess(command, expectedResultMessage, new ModelManager());
         assertSelectedCardUnchanged();
 
-        /* Case: selects first card in person list and clears club book -> cleared and no card selected */
+        /* Case: selects first card in member list and clears club book -> cleared and no card selected */
         executeCommand(UndoCommand.COMMAND_WORD); // restores the original club book
-        selectPerson(Index.fromOneBased(1));
+        selectMember(Index.fromOneBased(1));
         assertCommandSuccess(ClearCommand.COMMAND_WORD);
         assertSelectedCardDeselected();
 
-        /* Case: filters the person list before clearing -> entire club book cleared */
+        /* Case: filters the member list before clearing -> entire club book cleared */
         executeCommand(UndoCommand.COMMAND_WORD); // restores the original club book
-        showPersonsWithName(KEYWORD_MATCHING_MEIER);
+        showMembersWithName(KEYWORD_MATCHING_MEIER);
         assertCommandSuccess(ClearCommand.COMMAND_WORD);
         assertSelectedCardUnchanged();
 

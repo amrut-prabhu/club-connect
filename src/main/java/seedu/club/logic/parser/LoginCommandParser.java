@@ -9,8 +9,8 @@ import java.util.stream.Stream;
 import seedu.club.commons.exceptions.IllegalValueException;
 import seedu.club.logic.commands.LogInCommand;
 import seedu.club.logic.parser.exceptions.ParseException;
-import seedu.club.model.person.Password;
-import seedu.club.model.person.Username;
+import seedu.club.model.member.Password;
+import seedu.club.model.member.Username;
 
 /**
  * Parses input arguments and creates a new LogInCommand object

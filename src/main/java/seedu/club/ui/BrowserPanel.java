@@ -12,8 +12,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.web.WebView;
 import seedu.club.MainApp;
 import seedu.club.commons.core.LogsCenter;
-import seedu.club.commons.events.ui.PersonPanelSelectionChangedEvent;
-import seedu.club.model.person.Person;
+import seedu.club.commons.events.ui.MemberPanelSelectionChangedEvent;
+import seedu.club.model.member.Member;
 
 /**
  * The Browser Panel of the App.
@@ -41,8 +41,8 @@ public class BrowserPanel extends UiPart<Region> {
         registerAsAnEventHandler(this);
     }
 
-    private void loadPersonPage(Person person) {
-        loadPage(SEARCH_PAGE_URL + person.getName().fullName);
+    private void loadPersonPage(Member member) {
+        loadPage(SEARCH_PAGE_URL + member.getName().fullName);
     }
 
     public void loadPage(String url) {
@@ -65,8 +65,8 @@ public class BrowserPanel extends UiPart<Region> {
     }
 
     @Subscribe
-    private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event) {
+    private void handlePersonPanelSelectionChangedEvent(MemberPanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        loadPersonPage(event.getNewSelection().person);
+        loadPersonPage(event.getNewSelection().member);
     }
 }

@@ -39,7 +39,7 @@ public class RemoveGroupCommandSystemTest extends ClubBookSystemTest {
         String expectedResultMessage = String.format(MESSAGE_SUCCESS, deletedGroup);
         assertCommandSuccess(command, expectedModel, expectedResultMessage);
 
-        /* Case: undo deleting the group -> group restored in relevant persons */
+        /* Case: undo deleting the group -> group restored in relevant members */
         command = UndoCommand.COMMAND_WORD;
         expectedResultMessage = UndoCommand.MESSAGE_SUCCESS;
         assertCommandSuccess(command, modelBeforeDeletingGroup, expectedResultMessage);

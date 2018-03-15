@@ -17,9 +17,9 @@ import seedu.club.commons.events.model.AddressBookChangedEvent;
 import seedu.club.model.group.Group;
 import seedu.club.model.group.exceptions.GroupCannotBeRemovedException;
 import seedu.club.model.group.exceptions.GroupNotFoundException;
-import seedu.club.model.person.Person;
-import seedu.club.model.person.exceptions.DuplicatePersonException;
-import seedu.club.model.person.exceptions.PersonNotFoundException;
+import seedu.club.model.member.Member;
+import seedu.club.model.member.exceptions.DuplicateMemberException;
+import seedu.club.model.member.exceptions.MemberNotFoundException;
 import seedu.club.model.tag.Tag;
 import seedu.club.model.tag.exceptions.TagNotFoundException;
 
@@ -31,7 +31,7 @@ public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final ClubBook clubBook;
-    private final FilteredList<Person> filteredPersons;
+    private final FilteredList<Member> filteredMembers;
     private final FilteredList<Tag> filteredTags;
 
     /**
@@ -44,7 +44,7 @@ public class ModelManager extends ComponentManager implements Model {
         logger.fine("Initializing with club book: " + addressBook + " and user prefs " + userPrefs);
 
         this.clubBook = new ClubBook(addressBook);
-        filteredPersons = new FilteredList<>(this.clubBook.getPersonList());
+        filteredMembers = new FilteredList<>(this.clubBook.getMemberList());
         filteredTags = new FilteredList<>(this.clubBook.getTagList());
     }
 
@@ -69,25 +69,25 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public synchronized void deletePerson(Person target) throws PersonNotFoundException {
-        clubBook.removePerson(target);
+    public synchronized void deleteMember(Member target) throws MemberNotFoundException {
+        clubBook.removeMember(target);
         indicateAddressBookChanged();
     }
 
     @Override
-    public synchronized void addPerson(Person person) throws DuplicatePersonException {
-        //updateTagList(person.getTags());
-        clubBook.addPerson(person);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    public synchronized void addMember(Member member) throws DuplicateMemberException {
+        //updateTagList(member.getTags());
+        clubBook.addMember(member);
+        updateFilteredMemberList(PREDICATE_SHOW_ALL_MEMBERS);
         indicateAddressBookChanged();
     }
 
     @Override
-    public void updatePerson(Person target, Person editedPerson)
-            throws DuplicatePersonException, PersonNotFoundException {
-        requireAllNonNull(target, editedPerson);
+    public void updateMember(Member target, Member editedMember)
+            throws DuplicateMemberException, MemberNotFoundException {
+        requireAllNonNull(target, editedMember);
 
-        clubBook.updatePerson(target, editedPerson);
+        clubBook.updateMember(target, editedMember);
         deleteUnusedTags();
         indicateAddressBookChanged();
     }
@@ -110,7 +110,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void deleteTag(Tag tag) throws TagNotFoundException {
         clubBook.deleteTag(tag);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        updateFilteredMemberList(PREDICATE_SHOW_ALL_MEMBERS);
         indicateAddressBookChanged();
     }
 
@@ -141,34 +141,34 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     /**
-     * Returns true is no person in the club book is tagged with {@code tag}.
+     * Returns true is no member in the club book is tagged with {@code tag}.
      */
     private boolean isNotTaggedInPersons(Tag tag) {
-        List<Person> persons = new ArrayList<>(clubBook.getPersonList());
+        List<Member> members = new ArrayList<>(clubBook.getMemberList());
 
-        for (Person person: persons) {
-            if (person.getTags().contains(tag)) {
+        for (Member member : members) {
+            if (member.getTags().contains(tag)) {
                 return false;
             }
         }
         return true;
     }
 
-    //=========== Filtered Person List Accessors =============================================================
+    //=========== Filtered Member List Accessors =============================================================
 
     /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
+     * Returns an unmodifiable view of the list of {@code Member} backed by the internal list of
      * {@code clubBook}
      */
     @Override
-    public ObservableList<Person> getFilteredPersonList() {
-        return FXCollections.unmodifiableObservableList(filteredPersons);
+    public ObservableList<Member> getFilteredMemberList() {
+        return FXCollections.unmodifiableObservableList(filteredMembers);
     }
 
     @Override
-    public void updateFilteredPersonList(Predicate<Person> predicate) {
+    public void updateFilteredMemberList(Predicate<Member> predicate) {
         requireNonNull(predicate);
-        filteredPersons.setPredicate(predicate);
+        filteredMembers.setPredicate(predicate);
     }
 
     @Override
@@ -186,7 +186,7 @@ public class ModelManager extends ComponentManager implements Model {
         // state check
         ModelManager other = (ModelManager) obj;
         return clubBook.equals(other.clubBook)
-                && filteredPersons.equals(other.filteredPersons);
+                && filteredMembers.equals(other.filteredMembers);
     }
 
     //=========== Filtered Tag List Accessors =============================================================

@@ -36,7 +36,7 @@ public class DeleteTagCommandSystemTest extends ClubBookSystemTest {
         String expectedResultMessage = String.format(MESSAGE_DELETE_TAG_SUCCESS, deletedTag);
         assertCommandSuccess(command, expectedModel, expectedResultMessage);
 
-        /* Case: undo deleting the tag -> tag restored in relevant persons */
+        /* Case: undo deleting the tag -> tag restored in relevant members */
         command = UndoCommand.COMMAND_WORD;
         expectedResultMessage = UndoCommand.MESSAGE_SUCCESS;
         assertCommandSuccess(command, modelBeforeDeletingGroup, expectedResultMessage);
